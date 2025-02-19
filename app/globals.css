@@ -67,11 +67,16 @@
 }
 
 @layer base {
+  html {
+    @apply h-full scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-screen flex flex-col;
+  }
+
   * {
     @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
 
