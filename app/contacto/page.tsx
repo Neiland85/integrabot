@@ -1,86 +1,111 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { Card, CardContent } from "@/components/ui/card"
+import { Phone, Bot } from "lucide-react"
 
 export default function ContactPage() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [status, setStatus] = useState("")
+  const [isVisible, setIsVisible] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus("Enviando...")
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, message }),
-      })
-
-      if (response.ok) {
-        setStatus("Mensaje enviado con éxito")
-        setName("")
-        setEmail("")
-        setMessage("")
-      } else {
-        setStatus("Error al enviar el mensaje")
-      }
-    } catch (error) {
-      setStatus("Error al enviar el mensaje")
-    }
-  }
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <h1 className="text-4xl font-bold mb-8 text-center">Contacto</h1>
-      <div className="max-w-2xl mx-auto">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-2">
-              Nombre
-            </label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tu nombre" required />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="text-4xl font-bold mb-8 text-center">Contacto</h1>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <Card className="overflow-hidden">
+              <div className="h-3 bg-gradient-to-r from-primary to-secondary"></div>
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="bg-primary/10 p-3 rounded-full">
+                    <Bot className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold">Integrabot.net</h2>
+                    <p className="text-muted-foreground">Soluciones tecnológicas innovadoras</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-start">
+                    <Phone className="w-5 h-5 mr-3 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Teléfono</p>
+                      <p className="text-muted-foreground">Neil Muñoz (Ceo - Code Architect):</p>
+                      <a href="tel:+34613722441" className="text-muted-foreground hover:text-primary transition-colors">
+                        +34 613 722 441
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div>
+              <h2 className="text-2xl font-bold mb-4">¿Cómo podemos ayudarte?</h2>
+              <p className="mb-4">
+                Estamos aquí para responder a tus preguntas y ayudarte a encontrar la solución tecnológica perfecta para
+                tu negocio.
+              </p>
+              <p className="mb-4">Contáctanos para:</p>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start">
+                  <div className="bg-primary/10 p-1 rounded-full mr-2 mt-0.5">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>Consultas sobre nuestros servicios</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-primary/10 p-1 rounded-full mr-2 mt-0.5">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>Solicitar un presupuesto personalizado</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-primary/10 p-1 rounded-full mr-2 mt-0.5">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>Agendar una demostración</span>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-primary/10 p-1 rounded-full mr-2 mt-0.5">
+                    <Bot className="w-4 h-4 text-primary" />
+                  </div>
+                  <span>Explorar oportunidades de colaboración</span>
+                </li>
+              </ul>
+              <p>
+                Nuestro equipo te responderá a la brevedad posible. Generalmente respondemos en menos de 24 horas
+                durante días laborables.
+              </p>
+            </div>
           </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email
-            </label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              required
-            />
+
+          <div className="bg-muted/30 rounded-lg p-6">
+            <h2 className="text-xl font-bold mb-4">Horario de atención</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="font-medium">Lunes a Viernes</p>
+                <p className="text-muted-foreground">9:00 - 18:00</p>
+              </div>
+              <div>
+                <p className="font-medium">Sábados</p>
+                <p className="text-muted-foreground">10:00 - 14:00</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-2">
-              Mensaje
-            </label>
-            <Textarea
-              id="message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tu mensaje"
-              rows={5}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full">
-            Enviar mensaje
-          </Button>
-        </form>
-        {status && <p className="mt-4 text-center">{status}</p>}
-      </div>
+        </div>
+      </motion.div>
     </div>
   )
 }
-

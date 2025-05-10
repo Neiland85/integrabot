@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
+  reactStrictMode: true,
+  env: {
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASS: process.env.EMAIL_PASS,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,6 +14,6 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  output: "export", // Asegura que Next.js exporta archivos estáticos
-};
+}
 
+module.exports = nextConfig
